@@ -120,4 +120,9 @@ router.get('/profile', auth, async (req, res) => {
   }
 });
 
+
+router.get('/test', (req, res) => {
+  res.json({ success: true, message: 'Auth route is working' });
+});
+
 module.exports = router;
