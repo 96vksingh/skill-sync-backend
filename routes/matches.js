@@ -4,6 +4,7 @@ const auth = require('../middleware/auth');
 const User = require('../models/User');
 const Match = require('../models/Match');
 const Skill = require('../models/Skill');
+const Settings = require('../models/Settings');
 
 const router = express.Router();
 const CREWAI_SERVICE_URL = process.env.CREWAI_SERVICE_URL || 'http://localhost:8000';
@@ -30,8 +31,11 @@ router.post('/ai-enhanced', auth, async (req, res) => {
     
     // Get user's current skills for context
     const userSkills = await Skill.find({ user: req.user._id });
+        const crewai_servicesetting = await Settings.findOne({ name: 'crewai_service' });
+        const crewaiurl = crewai_servicesetting?.key;
     
-    const crewaiResponse = await axios.post(`${CREWAI_SERVICE_URL}/analyze-skills`, {
+    
+    const crewaiResponse = await axios.post(`${crewaiurl}/analyze-skills`, {
       user_id: req.user._id.toString(),
       preferences: req.body.preferences || {},
       current_skills: userSkills.map(skill => ({
@@ -126,7 +130,10 @@ router.post('/ai-enhanced', auth, async (req, res) => {
 // @access  Private
 router.get('/ai-status', auth, async (req, res) => {
   try {
-    const healthResponse = await axios.get(`${CREWAI_SERVICE_URL}/health`, {
+            const crewai_servicesetting = await Settings.findOne({ name: 'crewai_service' });
+        const crewaiurl = crewai_servicesetting?.key;
+
+    const healthResponse = await axios.get(`${crewaiurl}/health`, {
       timeout: 5000
     });
     

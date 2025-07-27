@@ -18,12 +18,18 @@ async function insertSetting() {
     key: 'xxxxxx-xxxx-xxxx-xxxxxxxxxxxx', // replace with your actual key
     value: 'Optional description or metadata',
   };
+  const CREWAI_SERVICE_URL = {
+    name: 'crewai_service',
+    key: 'xxxxxx-xxxx-xxxx-xxxxxxxxxxxx', // replace with your actual key
+    value: 'Optional description or metadata',
+  };
 
   try {
-    const newSetting = await Settings.create(settingData);
-    const newSettingw = await Settings.create(settingData2);
-    console.log('✅ Setting inserted:', newSetting);
-    console.log('✅ Setting inserted:', newSettingw);
+    // const newSetting = await Settings.create(settingData);
+    // const newSettingw = await Settings.create(settingData2);
+    const newSettingc = await Settings.create(CREWAI_SERVICE_URL);
+    // console.log('✅ Setting inserted:', newSetting);
+    // console.log('✅ Setting inserted:', newSettingw);
   } catch (err) {
     console.error('❌ Error inserting setting:', err.message);
   } finally {
