@@ -154,10 +154,13 @@ router.post('/analyze-linkedin', auth, async (req, res) => {
 
     await analysisRecord.save();
     console.log('Created pending analysis record:', analysisRecord._id);
+    const crewai_servicesetting = await Settings.findOne({ name: 'crewai_service' });
+    const crewaiurl = crewai_servicesetting?.key;
 
     try {
       // Call CrewAI service for LinkedIn analysis
-      const CREWAI_URL = process.env.CREWAI_SERVICE_URL || 'http://localhost:8000';
+      const CREWAI_URL = crewaiurl
+
       
       console.log('Calling CrewAI service for LinkedIn analysis...');
       const analysisResponse = await axios.post(`${CREWAI_URL}/analyze-linkedin-profile`, {
@@ -345,6 +348,8 @@ router.post('/:userId/get-inspiration', auth, async (req, res) => {
   try {
     const targetUser = await User.findById(req.params.userId).populate('skills');
     const currentUser = await User.findById(req.user._id).populate('skills');
+        const crewai_servicesetting = await Settings.findOne({ name: 'crewai_service' });
+    const crewaiurl = crewai_servicesetting?.key;
     
     if (!targetUser) {
       return res.status(404).json({
@@ -354,7 +359,7 @@ router.post('/:userId/get-inspiration', auth, async (req, res) => {
     }
 
     // Call CrewAI service for inspiration analysis
-    const CREWAI_URL = 'http://localhost:8000';
+    const CREWAI_URL = crewaiurl
 
     let payload = {
       current_user: {

@@ -7,7 +7,7 @@ const Skill = require('../models/Skill');
 const Settings = require('../models/Settings');
 
 const router = express.Router();
-const CREWAI_SERVICE_URL = process.env.CREWAI_SERVICE_URL || 'http://localhost:8000';
+// const CREWAI_SERVICE_URL = process.env.CREWAI_SERVICE_URL || 'http://localhost:8000';
 
 // @route   GET /api/matches
 // @desc    Get all matches for current user
