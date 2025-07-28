@@ -219,7 +219,7 @@ router.post('/analyze-linkedin', auth, async (req, res) => {
 
       // Update the analysis record with CrewAI results
       analysisRecord.recommendations = recommendations;
-      analysisRecord.analysis_text = crewAIResult.analysis_text || 'LinkedIn profile analysis completed successfully.';
+      analysisRecord.analysis_text = crewAIResult.analysis_result || 'LinkedIn profile analysis completed successfully.';
       analysisRecord.status = 'completed';
       analysisRecord.ai_provider = 'CrewAI';
       analysisRecord.metadata = {
